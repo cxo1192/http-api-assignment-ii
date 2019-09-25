@@ -54,6 +54,8 @@ const handleGet = (request, response, parsedUrl) => {
     htmlHandler.getCSS(request, response);
   } else if (parsedUrl.pathname === '/getUsers') {
     jsonXmlHandler.getUsers(request, response);
+  } else if (parsedUrl.pathname === '/notReal') {
+    jsonXmlHandler.notFound(request, response);
   } else {
     htmlHandler.getIndex(request, response);
   }

@@ -64,7 +64,7 @@ const getUsers = (request, response, head) => {
 };
 
 
-const notFound = (request, response/* , params , type */) => {
+const notFound = (request, response,head/* , params , type */) => {
   const responseJSON = {
     message: 'The page you are looking for was not found.',
     id: 'notFound',
@@ -81,6 +81,9 @@ const notFound = (request, response/* , params , type */) => {
 
 
   // const content = JSON.stringify(responseJSON);
+  if(head === true){
+    return respondMeta(request,response,404);
+  }
 
   return respond(request, response, 404, responseJSON/* , 'application/json' */);
 };
