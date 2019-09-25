@@ -51,11 +51,7 @@ const addUser = (request, response, body) => {
 };
 
 // return user object as JSON
-const getUsers = (request, response, head) => {
-  if (head === true) {
-    return respondMeta(request, response, 200);
-  }
-
+const getUsers = (request, response) => {
   const responseJSON = {
     users,
   };
@@ -64,26 +60,11 @@ const getUsers = (request, response, head) => {
 };
 
 
-const notFound = (request, response,head/* , params , type */) => {
+const notFound = (request, response,/* , params , type */) => {
   const responseJSON = {
     message: 'The page you are looking for was not found.',
     id: 'notFound',
   };
-
-  // if (type[0] === 'text/xml') {
-  //   let responseXML = '<response>';
-  //   responseXML = `${responseXML} <message> ${responseJSON.message}</message>`;
-  //   responseXML = `${responseXML} <id> ${responseJSON.id}</id>`;
-  //   responseXML = `${responseXML} </response>`;
-
-  //   return respond(request, response, 404, responseXML, 'text/xml');
-  // }
-
-
-  // const content = JSON.stringify(responseJSON);
-  if(head === true){
-    return respondMeta(request,response,404);
-  }
 
   return respond(request, response, 404, responseJSON/* , 'application/json' */);
 };

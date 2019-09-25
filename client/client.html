@@ -29,7 +29,7 @@
       }
     };
     //function to handle our response
-    const handleResponse = (xhr) => {
+    const handleResponse = (xhr, head) => {
       const content = document.querySelector('#content');
       
       //check the status code
@@ -47,11 +47,13 @@
           content.innerHTML = `<b>Bad Request</b>`;
           break;
         default: //any other status code
-          content.innerHTML = `Error code not implemented by client.`;
+          content.innerHTML = `Resource Not Found`;
           break;
       }
       //parse response 
+      if(head == false){ //only parse and display json if it isnt a head request
       parseJSON(xhr, content);
+      }
     };
      
      
@@ -84,7 +86,7 @@
       xhr.setRequestHeader ('Accept', 'application/json');
       
       //set our function to handle the response
-      xhr.onload = () => handleResponse(xhr);
+      xhr.onload = () => handleResponse(xhr,false);
 
 
          //build our x-www-form-urlencoded format. Without ajax the 
@@ -123,16 +125,19 @@
       //create a new Ajax request (remember this is asynchronous)
       const xhr = new XMLHttpRequest();
       //set the method (GET) and url (action field from form)
-      xhr.open(nameMethod, nameAction);
+      xhr.open(nameMethod, urlField.value);
       
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       //set our requested response type in hopes of a JSON response
       xhr.setRequestHeader ('Accept', 'application/json');
       
       //set our function to handle the response
-      xhr.onload = () => handleResponse(xhr);
+      if(methodField.value === "head"){
+        xhr.onload = () => handleResponse(xhr,true);
+      }else{
+        xhr.onload = () => handleResponse(xhr,false);
+      }
       
-      const formData = `url=${urlField.value}&method=${methodField.value}`;
       
       //send our request with the data
       xhr.send();
@@ -159,7 +164,7 @@
       nameForm.addEventListener('submit', addUser);
 
       //attach submit event (for clicking submit or hitting enter)
-      nameForm.addEventListener('submit', getUsers);
+      userForm.addEventListener('submit', getUsers);
     };
     window.onload = init;
   </script>
